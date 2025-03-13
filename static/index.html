@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сокращение ссылок</title>
+</head>
+<body>
+    <h1>Сокращение ссылок</h1>
+    <form id="shorten-form">
+        <label for="url">Введите URL:</label>
+        <input type="text" id="url" name="url" required>
+        <button type="submit">Сократить</button>
+    </form>
+    <div id="result" style="display: none;">
+        <h2>Сокращенная ссылка:</h2>
+        <a id="shortened-link" href=""></a>
+    </div>
+
+    <script>
+        document.getElementById('shorten-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const url = document.getElementById('url').value;
+            const response = await fetch('/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ original_link: url })
+            });
+            const result = await response.json();
+            const shortenedLink = document.getElementById('shortened-link');
+            shortenedLink.href = result.short_link;
+            shortenedLink.textContent = result.short_link;
+            document.getElementById('result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
