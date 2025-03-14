@@ -11,7 +11,7 @@
 1. Клонируйте репозиторий:
 
     ```sh
-    git clone https://github.com/ SergeiMurashev/go-url-shortener.git
+    git clone https://github.com/SergeiMurashev/go-url-shortener.git
     cd go-url-shortener
     ```
 

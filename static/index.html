@@ -16,6 +16,11 @@
         <h2>Сокращенная ссылка:</h2>
         <a id="shortened-link" href=""></a>
     </div>
+    <button id="history-button">Показать историю</button>
+    <div id="history" style="display: none;">
+        <h2>История сокращенных ссылок:</h2>
+        <ul id="history-list"></ul>
+    </div>
 
     <script>
         document.getElementById('shorten-form').addEventListener('submit', async function(event) {
@@ -26,13 +31,26 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ original_link: url })
+                body: JSON.stringify({ origin_link: url })
             });
             const result = await response.json();
             const shortenedLink = document.getElementById('shortened-link');
             shortenedLink.href = result.short_link;
             shortenedLink.textContent = result.short_link;
             document.getElementById('result').style.display = 'block';
+        });
+
+        document.getElementById('history-button').addEventListener('click', async function() {
+            const response = await fetch('/history');
+            const history = await response.json();
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            history.forEach(link => {
+                const listItem = document.createElement('li');
+                listItem.textContent = link;
+                historyList.appendChild(listItem);
+            });
+            document.getElementById('history').style.display = 'block';
         });
     </script>
 </body>
